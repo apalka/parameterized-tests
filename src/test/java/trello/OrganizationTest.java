@@ -54,9 +54,15 @@ public class OrganizationTest extends BaseTest {
     @MethodSource("createOrganizationData")
     public void createOrganization(String displayName, String desc, String name, String website) {
 
+        Organization newOrg = new Organization();
+        newOrg.setDisplayName(displayName);
+//        newOrg.setDesc(desc);
+//        newOrg.setName(name);
+//        newOrg.setWebsite(website);
+
         Response response = given()
                 .spec(reqSpec)
-                .queryParam("displayName", displayName)
+                .queryParam("displayName", newOrg.getDisplayName())
                 .queryParam("desc", desc)
                 .queryParam("name", name)
                 .queryParam("website", website)
@@ -73,7 +79,7 @@ public class OrganizationTest extends BaseTest {
         }
 
         Assertions.assertThat(response.getStatusCode()).isEqualTo(200);
-        Assertions.assertThat(json.getString("displayName")).isEqualTo(displayName);
+        Assertions.assertThat(json.getString("displayName")).isEqualTo(newOrg.getDisplayName());
         Assertions.assertThat(json.getString("desc")).isEqualTo(desc);
         Assertions.assertThat(json.getString("name")).isEqualTo(name);
         Assertions.assertThat(json.getString("website")).isEqualTo(website);
